@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe6f2;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            color: #333;
+        }
+        .chatbox {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            height: 200px;
+            overflow-y: auto;
+            text-align: left;
+            position: relative;
+            background-color: #fff;
+        }
+        .button-container {
+            margin-top: 20px;
+            display: none; 
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .response {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f1f1f1;
+        }
+        .input-container {
+            margin-top: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 70%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .flower {
+            position: absolute;
+            font-size: 24px;
+            top: -50px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        .butterfly {
+            position: absolute;
+            font-size: 24px;
+            top: -20px;
+            animation: float linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(200px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    function createFallingFlower() {
+        const flowerEmojis = ["🌸", "🌺", "🌼", "🌻", "🌷", "💐", "🍁", "🌿", "🍃"];
+        const flower = document.createElement("div");
+        flower.classList.add("flower");
+        flower.textContent = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
+        flower.style.left = Math.random() * window.innerWidth + "px";
+        flower.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(flower);
+
+        setTimeout(() => {
+            flower.remove();
+        }, 5000);
+    }
+    setInterval(createFallingFlower, 300);
+</script>
+
+<div class="container">
+    <h1>Mental Health Chatbot</h1>
+
+    <div class="chatbox" id="chatbox" style="
+        background-image: 
+            linear-gradient(rgba(255,192,203,0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,192,203,0.3) 1px, transparent 1px);
+        background-size: 20px 20px;
+        animation: gridColorChange 10s infinite alternate;
+    ">
+        <div class="response">Welcome! How can I help you?</div>
+    </div>
+
+    <style>
+        @keyframes gridColorChange {
+            0% { background-image: 
+                linear-gradient(rgba(255,192,203,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,192,203,0.3) 1px, transparent 1px); }
+            25% { background-image: 
+                linear-gradient(rgba(173,216,230,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(173,216,230,0.3) 1px, transparent 1px); }
+            50% { background-image: 
+                linear-gradient(rgba(144,238,144,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(144,238,144,0.3) 1px, transparent 1px); }
+            75% { background-image: 
+                linear-gradient(rgba(255,255,153,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,153,0.3) 1px, transparent 1px); }
+            100% { background-image: 
+                linear-gradient(rgba(221,160,221,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(221,160,221,0.3) 1px, transparent 1px); }
+        }
+    </style>
+
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="Type Enter to continue..." onkeydown="showMoods(event)">
+    </div>
+
+    <div class="button-container" id="moodButtons">
+        <button onclick="getMood('happy')">Happy</button>
+        <button onclick="getMood('sad')">Sad</button>
+        <button onclick="getMood('stressed')">Stressed</button>
+    </div>
+</div>
+
+<script>
+    function showMoods(event) {
+        if (event.key === "Enter") {
+            document.getElementById('moodButtons').style.display = "block"; 
+            document.getElementById('userInput').style.display = "none"; 
+        }
+    }
+
+    function getMood(mood) {
+        let chatbox = document.getElementById('chatbox');
+        
+        let userMessage = document.createElement('div');
+        userMessage.classList.add('response');
+        userMessage.textContent = "You are feeling: " + mood.charAt(0).toUpperCase() + mood.slice(1);
+        chatbox.appendChild(userMessage);
+
+        const responses = {
+            happy: [
+                "That's great! Keep enjoying the moment. 😊",
+                "Happiness is contagious! Keep spreading joy! 🌞",
+                "Your smile can make someone's day brighter. 😁",
+                "Keep up the positive vibes! 🎉",
+                "Stay happy and keep chasing your dreams! 🚀",
+                "Your happiness shines like sunshine! Keep radiating those good vibes! ☀️",
+                "Joy looks beautiful on you! Wishing you many more happy moments ahead! 🌈",
+                "Happy soul, happy life! Keep embracing the beauty around you! 🌸",
+                "The world needs more happy people like you! Keep being you! ✨",
+                "Happiness is the best makeup! And you're wearing it perfectly today! 💄😊"
+            ],
+            sad: [
+                "Why don't skeletons fight each other? They don't have the guts! 💀😂",
+                "Feeling down? Remember, even the moon goes through phases! 🌙",
+                "Turn that frown upside down! 😀",
+                "Why did the tomato turn red? Because it saw the salad dressing! 🥗😂",
+                "Everything will be okay in the end. If it's not okay, it's not the end. 💕",
+                "Even raindrops help flowers grow. This tough time will help you bloom too! 🌧️🌷",
+                "Remember: You've survived 100% of your bad days so far! 💪",
+                "It's okay to not be okay sometimes. Tomorrow is a fresh start! 🌅",
+                "You're stronger than you think! This storm will pass, I promise! ⛈️🌈",
+                "Sadness is just happiness taking a little nap in your heart! It'll wake up soon! 💤❤️"
+            ],
+            stressed: [
+                "Take a deep breath. Inhale… Exhale… Feel better? 😊",
+                "Listen to your favorite song and dance like nobody's watching! 🎶💃",
+                "Stress is like a rocking chair—it keeps you moving but gets you nowhere. 🚶‍♂️",
+                "Drink some water, take a break, and relax. 💧",
+                "Imagine your stress as a balloon... now let it float away! 🎈",
+                "Pretend you're a tree - stand tall, breathe deep, and remember your roots! 🌳",
+                "Make like a duck - stay calm on the surface and paddle like crazy underneath! 🦆",
+                "Your mind is a garden - pull out the weeds of stress and plant happy thoughts! 🌻",
+                "Pretend you're squeezing a lemon - tense up for 5 seconds, then let it all go! 🍋",
+                "Imagine your stress as clouds - watch them float by without holding onto them! ☁️"
+            ]
+        };
+
+        let botMessage = document.createElement('div');
+        botMessage.classList.add('response');
+        botMessage.textContent = responses[mood][Math.floor(Math.random() * responses[mood].length)];
+        chatbox.appendChild(botMessage);
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+</script>
+
+</body>
+</html>
